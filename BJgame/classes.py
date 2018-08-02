@@ -32,11 +32,11 @@ class Hand:
         self.points = 0
         self.aces = 0
     def add(self, card):
-        card = card.split()
+        card = card.rank
         self.cards.append(card)
-        self.points += values.get(card[0])
-        if card[2] == 'Ace':
-            self.aces +=1
+        self.points += self.values.get(card)
+        if card == 'Ace':
+            self.aces = self.aces + 1
     def adjust(self):
         num = input('How many aces out of {} you want to be 1?'.format(self.aces))
         self.points -=num*10
