@@ -1,7 +1,7 @@
 import random
 suits = ('Hearts', 'Diamonds', 'Spades', 'Clubs')
 ranks = ('Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Jack', 'Queen', 'King', 'Ace')
-
+values = {'Two':2, 'Three':3, 'Four':4, 'Five':5, 'Six':6, 'Seven':7, 'Eight':8, 'Nine':9, 'Ten':10, 'Jack':10, 'Queen':10, 'King':10, 'Ace':11}
 class Card:
     def __init__(self,rank,suit):
         self.rank = rank
@@ -32,11 +32,26 @@ class Hand:
         self.points = 0
         self.aces = 0
     def add(self, card):
-        card = card.rank
         self.cards.append(card)
-        self.points += self.values.get(card)
-        if card == 'Ace':
+        self.points += self.values.get(card.rank)
+        if card.rank == 'Ace':
             self.aces = self.aces + 1
     def adjust(self):
-        num = input('How many aces out of {} you want to be 1?'.format(self.aces))
-        self.points -=num*10
+        while self.points > 21 and self.aces:
+            self.points -= 10
+            self.aces -= 1
+
+class Chips:
+
+    def __init__(self, name, amount=100):
+        self.owner = name
+        self.balance = amount
+
+    def __str__(self):
+        return f"{self.owner} has {self.balance} chips"
+    def win (self, amount=0):
+        self.balance = self.balance + amount
+        print('{} win {} chips'.format(self.owner,amount))
+    def lose (self,amount):
+        self.balance = self.balance - amount
+        print('{} lose {} chips'.format(self.owner,amount))
